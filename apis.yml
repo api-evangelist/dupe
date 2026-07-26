@@ -1,7 +1,17 @@
 aid: dupe
 name: Dupe
-description: Dupe is a company surfaced as a portfolio company of kindred-ventures and added to the API
-  Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+description: >-
+  Dupe.com is a free AI-powered visual search engine and product-comparison
+  platform that finds near-identical, lower-priced alternatives ("dupes") to
+  designer and higher-priced products. Users paste any product URL, upload an
+  image, or type a description, and Dupe's visual matching surfaces similar items
+  from thousands of online retailers at up to 90% less — spanning furniture, home
+  decor, fashion, footwear, beauty, and more. The service also offers AI research
+  reports, room/outfit restyling, a Chrome extension, an iOS app, and a $DUPE
+  rewards program, and it earns revenue through affiliate commissions at no extra
+  cost to users. Dupe additionally operates a hosted Model Context Protocol (MCP)
+  server so AI assistants can search its catalog programmatically. Backed by
+  Kindred Ventures.
 url: https://raw.githubusercontent.com/api-evangelist/dupe/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -9,11 +19,31 @@ x-backed-by:
 - kindred-ventures
 x-tier: stub
 x-tier-reason: portfolio-lead
+accessModel:
+  pricing: unknown
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Unknown
+  confidence: low
+  source: []
+  generated: '2026-07-22'
+  method: derived
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-18'
+image: https://dupe.com/android-chrome-512x512.png
 tags:
 - Company
+- Shopping
+- E-commerce
+- Retail
+- Visual Search
+- Product Discovery
+- Artificial Intelligence
+- Affiliate
+- MCP
 apis: []
 maintainers:
 - FN: Kin Lane
@@ -23,3 +53,22 @@ maintainers:
 common:
 - type: Website
   url: https://dupe.com/
+- type: Blog
+  url: https://dupe.com/blog
+- type: Support
+  url: https://dupe.com/contact
+- type: PrivacyPolicy
+  url: https://dupe.com/privacy
+- type: TermsOfService
+  url: https://dupe.com/terms
+- type: LLMsTxt
+  url: llms/dupe-llms.txt
+- type: MCPServer
+  url: mcp/dupe-mcp.yml
+- type: DomainSecurity
+  url: security/dupe-domain-security.yml
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence
