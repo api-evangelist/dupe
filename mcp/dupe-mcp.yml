@@ -8,55 +8,82 @@ server:
   version: 1.0.0
   transport: http
   url: https://mcp.dupe.com/mcp
-  notes: >-
-    Streamable HTTP with SSE support. Requires an Mcp-Session-Id header returned
-    from the initialize response for subsequent calls. No auth token was required
-    to complete the initialize/tools-list handshake. Client config published in
-    llms.txt uses `npx -y mcp-remote https://mcp.dupe.com/mcp --transport http-only`.
-  instructions: >-
-    Dupe MCP provides tools for searching products by text, images, and URLs using
-    Dupe.com's search capabilities.
+  notes: Streamable HTTP with SSE support. Requires an Mcp-Session-Id header returned from the initialize
+    response for subsequent calls. No auth token was required to complete the initialize/tools-list handshake.
+    Client config published in llms.txt uses `npx -y mcp-remote https://mcp.dupe.com/mcp --transport http-only`.
+  instructions: Dupe MCP provides tools for searching products by text, images, and URLs using Dupe.com's
+    search capabilities.
 tools:
-  - name: search_catalog
-    description: >-
-      Search for products by text query. Returns alternative and similar products
-      from Dupe's catalog. Use this to find dupes / affordable alternatives.
-    required: [query]
-    params: [meta, query, page_size, page_token, filters]
-  - name: lookup_catalog
-    description: >-
-      Find alternative products (dupes) for specific items identified by URL.
-      Accepts one or more product page URLs and returns visually and semantically
-      similar products.
-    required: [identifiers]
-    params: [meta, identifiers]
-  - name: get_product
-    description: >-
-      Retrieve enriched details for a specific product by its ID (from a previous
-      search_catalog or lookup_catalog result). Returns description, brand, etc.
-    required: [id]
-    params: [meta, id, selected_options]
-  - name: search_products_by_text
-    description: >-
-      Search for products using text description or keywords across various
-      shopping platforms.
-    required: [query, refresh, search_category]
-    params: [query, refresh, search_category]
-  - name: search_products_by_image
-    description: >-
-      Search for visually similar products using an image URL (or hash of an
-      existing result).
-    required: []
-    params: [image_url, hash, refresh, load_more, q, is_refinement]
-  - name: search_products_by_url
-    description: >-
-      Extract and search for alternatives to a specific product from its complete
-      product page URL.
-    required: [product_url]
-    params: [hash, product_url, image_override, refresh]
-  - name: get_product_details
-    description: >-
-      Fetch enriched product details (description, brand, specifications, images,
-      typical price range) for one or more products from a previous result.
-    required: [product_ids]
-    params: [meta, product_ids]
+- name: search_catalog
+  description: Search for products by text query. Returns alternative and similar products from Dupe's
+    catalog. Use this to find dupes / affordable alternatives.
+  required:
+  - query
+  params:
+  - meta
+  - query
+  - page_size
+  - page_token
+  - filters
+- name: lookup_catalog
+  description: Find alternative products (dupes) for specific items identified by URL. Accepts one or
+    more product page URLs and returns visually and semantically similar products.
+  required:
+  - identifiers
+  params:
+  - meta
+  - identifiers
+- name: get_product
+  description: Retrieve enriched details for a specific product by its ID (from a previous search_catalog
+    or lookup_catalog result). Returns description, brand, etc.
+  required:
+  - id
+  params:
+  - meta
+  - id
+  - selected_options
+- name: search_products_by_text
+  description: Search for products using text description or keywords across various shopping platforms.
+  required:
+  - query
+  - refresh
+  - search_category
+  params:
+  - query
+  - refresh
+  - search_category
+- name: search_products_by_image
+  description: Search for visually similar products using an image URL (or hash of an existing result).
+  required: []
+  params:
+  - image_url
+  - hash
+  - refresh
+  - load_more
+  - q
+  - is_refinement
+- name: search_products_by_url
+  description: Extract and search for alternatives to a specific product from its complete product page
+    URL.
+  required:
+  - product_url
+  params:
+  - hash
+  - product_url
+  - image_override
+  - refresh
+- name: get_product_details
+  description: Fetch enriched product details (description, brand, specifications, images, typical price
+    range) for one or more products from a previous result.
+  required:
+  - product_ids
+  params:
+  - meta
+  - product_ids
+deployment:
+  mode: remote
+  endpoint: https://mcp.dupe.com/mcp
+  verified: probed
+  probe: live
+  checked: '2026-08-12'
+  source: catalog MCP census
