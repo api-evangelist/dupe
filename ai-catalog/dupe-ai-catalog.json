@@ -1,0 +1,111 @@
+{
+  "specVersion": "1.0",
+  "host": {
+    "displayName": "Dupe.com",
+    "documentationUrl": "https://dupe.com/agent.txt",
+    "logoUrl": "https://dupe.com/android-chrome-512x512.png",
+    "trustManifest": {
+      "identity": "https://dupe.com",
+      "identityType": "https"
+    }
+  },
+  "entries": [
+    {
+      "identifier": "urn:air:dupe.com:shopping:product-search",
+      "displayName": "Dupe.com Product Search",
+      "type": "application/mcp-server-card+json",
+      "trustManifest": {
+        "identity": "https://dupe.com",
+        "identityType": "https"
+      },
+      "description": "Visual product-matching for shopping. Give it a product as a URL, an image, or a text description and it returns visually similar products (\"dupes\") sold by other retailers, usually cheaper, with prices and buy links. Coverage is strongest in furniture, home decor, fashion, footwear, bags and beauty. Free to use; revenue comes from affiliate commissions at no extra cost to the shopper.",
+      "tags": [
+        "shopping",
+        "ecommerce",
+        "product-search",
+        "visual-search",
+        "price-comparison",
+        "furniture",
+        "home-decor",
+        "fashion",
+        "beauty"
+      ],
+      "capabilities": [
+        "search_products_by_text",
+        "search_products_by_image",
+        "search_products_by_url",
+        "get_product_details",
+        "search_catalog",
+        "lookup_catalog",
+        "get_product"
+      ],
+      "representativeQueries": [
+        "find a cheaper version of this sofa",
+        "what does a dupe of this designer bag cost",
+        "this lamp is sold out, what looks like it",
+        "recreate this living room for less",
+        "is this the best price for this chair"
+      ],
+      "data": {
+        "name": "dupe-mcp",
+        "description": "Dupe.com product search over the Model Context Protocol. Prefer search_products_by_url or search_products_by_image when the user has a link or a picture; text search is the weakest of the three.",
+        "remotes": [
+          {
+            "type": "streamable-http",
+            "url": "https://mcp.dupe.com/mcp"
+          }
+        ],
+        "tools": [
+          {
+            "name": "search_products_by_url",
+            "description": "Best-fit entry point. Takes a full product page URL, extracts the product, and returns visually similar alternatives."
+          },
+          {
+            "name": "search_products_by_image",
+            "description": "Takes a publicly reachable image URL and returns visually similar products. Use for screenshots, photos and inspiration images."
+          },
+          {
+            "name": "search_products_by_text",
+            "description": "Takes a keyword or description query with an optional shopping category. Weakest of the three; prefer a URL or image when the user has one."
+          },
+          {
+            "name": "get_product_details",
+            "description": "Fetches enriched detail (description, brand, specifications, images, typical price range) for up to 5 product_id values from a previous search. Requires an API key."
+          },
+          {
+            "name": "search_catalog",
+            "description": "Universal Commerce Protocol alias for text product search, named per the /.well-known/ucp shopping profile."
+          },
+          {
+            "name": "lookup_catalog",
+            "description": "Universal Commerce Protocol alias for finding alternatives to one or more product page URLs."
+          },
+          {
+            "name": "get_product",
+            "description": "Universal Commerce Protocol alias for enriched single-product detail by ID. Requires an API key."
+          }
+        ]
+      }
+    },
+    {
+      "identifier": "urn:air:dupe.com:agent:instructions",
+      "displayName": "Dupe.com Agent Instructions",
+      "type": "application/ai-skill+md",
+      "trustManifest": {
+        "identity": "https://dupe.com",
+        "identityType": "https"
+      },
+      "url": "https://dupe.com/agent.txt",
+      "description": "How to use Dupe.com as an agent: when it is the right tool and when it is not, how to call the MCP server, how to present prices and matches honestly, and what governs automated access.",
+      "tags": [
+        "instructions",
+        "agent-guidance",
+        "shopping"
+      ],
+      "representativeQueries": [
+        "when should an agent use dupe.com",
+        "how should an agent quote dupe.com prices and retailers"
+      ]
+    }
+  ]
+}
