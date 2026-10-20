@@ -16,7 +16,7 @@ server:
 tools:
 - name: search_catalog
   description: Search for products by text query. Returns alternative and similar products from Dupe's
-    catalog. Use this to find dupes / affordable alternatives.
+    catalog. Use this to find dupes, affordable alternatives, or similar items.
   required:
   - query
   params:
@@ -27,7 +27,8 @@ tools:
   - filters
 - name: lookup_catalog
   description: Find alternative products (dupes) for specific items identified by URL. Accepts one or
-    more product page URLs and returns visually and semantically similar products.
+    more product page URLs and returns visually and semantically similar alternatives at different price
+    points.
   required:
   - identifiers
   params:
@@ -35,7 +36,7 @@ tools:
   - identifiers
 - name: get_product
   description: Retrieve enriched details for a specific product by its ID (from a previous search_catalog
-    or lookup_catalog result). Returns description, brand, etc.
+    or lookup_catalog result). Returns description, brand, specifications, images, and typical price range.
   required:
   - id
   params:
@@ -43,7 +44,8 @@ tools:
   - id
   - selected_options
 - name: search_products_by_text
-  description: Search for products using text description or keywords across various shopping platforms.
+  description: Search for products using text description or keywords. This tool searches through various
+    shopping platforms to find products matching your query.
   required:
   - query
   - refresh
@@ -53,7 +55,8 @@ tools:
   - refresh
   - search_category
 - name: search_products_by_image
-  description: Search for visually similar products using an image URL (or hash of an existing result).
+  description: Search for visually similar products using an image. Provide an image URL (or hash of existing
+    result) and find visually similar products.
   required: []
   params:
   - image_url
@@ -63,8 +66,8 @@ tools:
   - q
   - is_refinement
 - name: search_products_by_url
-  description: Extract and search for alternatives to a specific product from its complete product page
-    URL.
+  description: Extract and search for alternatives to a specific product from its URL. Use ONLY for complete
+    product page URLs.
   required:
   - product_url
   params:
@@ -73,8 +76,11 @@ tools:
   - image_override
   - refresh
 - name: get_product_details
-  description: Fetch enriched product details (description, brand, specifications, images, typical price
-    range) for one or more products from a previous result.
+  description: Fetch enriched product details — description, brand, specifications, images, and typical
+    price range — for one or more products from a previous search. Pass product_id values returned by
+    search_products_by_text or search_products_by_image. Use this when the user wants to know more about
+    a specific product or when you need a product description to display. Processes up to 5 products per
+    call in parallel.
   required:
   - product_ids
   params:
@@ -112,3 +118,4 @@ tool_quality:
   scored: false
   note: Facts from the saved tools/list capture (mcp_tool_quality.py); recorded, not scored. Checks learned
     from Glimind's agent-readiness audit.
+tools_count: 7
