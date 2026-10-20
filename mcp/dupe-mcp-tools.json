@@ -1,0 +1,390 @@
+{
+  "endpoint": "https://mcp.dupe.com/mcp",
+  "captured": "2026-10-20",
+  "method": "initialize + tools/list (anonymous, no tool called; roadmap#992)",
+  "protocol_version": "2025-06-18",
+  "server_info": {
+    "name": "dupe-mcp",
+    "version": "1.0.0"
+  },
+  "result": {
+    "tools": [
+      {
+        "name": "search_catalog",
+        "description": "Search for products by text query. Returns alternative and similar products from Dupe's catalog. Use this to find dupes, affordable alternatives, or similar items.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "meta": {
+              "type": "object",
+              "properties": {
+                "ucp-agent": {
+                  "type": "object",
+                  "properties": {
+                    "profile": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "profile"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false,
+              "description": "UCP agent metadata"
+            },
+            "query": {
+              "type": "string",
+              "description": "Text search query — product name, description, or keywords"
+            },
+            "page_size": {
+              "type": "number",
+              "default": 20,
+              "description": "Max number of results (default 20)"
+            },
+            "page_token": {
+              "type": "string",
+              "description": "Pagination token from previous response (not yet supported)"
+            },
+            "filters": {
+              "type": "object",
+              "properties": {
+                "price": {
+                  "type": "object",
+                  "properties": {
+                    "min": {
+                      "type": "number"
+                    },
+                    "max": {
+                      "type": "number"
+                    },
+                    "currency": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "category": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false,
+              "description": "Optional filters (not yet supported)"
+            }
+          },
+          "required": [
+            "query"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": true
+        },
+        "execution": {
+          "taskSupport": "forbidden"
+        }
+      },
+      {
+        "name": "lookup_catalog",
+        "description": "Find alternative products (dupes) for specific items identified by URL. Accepts one or more product page URLs and returns visually and semantically similar alternatives at different price points.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "meta": {
+              "type": "object",
+              "properties": {
+                "ucp-agent": {
+                  "type": "object",
+                  "properties": {
+                    "profile": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "profile"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false,
+              "description": "UCP agent metadata"
+            },
+            "identifiers": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1,
+              "maxItems": 5,
+              "description": "Product page URLs to find alternatives for"
+            }
+          },
+          "required": [
+            "identifiers"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": true
+        },
+        "execution": {
+          "taskSupport": "forbidden"
+        }
+      },
+      {
+        "name": "get_product",
+        "description": "Retrieve enriched details for a specific product by its ID (from a previous search_catalog or lookup_catalog result). Returns description, brand, specifications, images, and typical price range.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "meta": {
+              "type": "object",
+              "properties": {
+                "ucp-agent": {
+                  "type": "object",
+                  "properties": {
+                    "profile": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "profile"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false,
+              "description": "UCP agent metadata"
+            },
+            "id": {
+              "type": "string",
+              "description": "Product ID returned by search_catalog or lookup_catalog"
+            },
+            "selected_options": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "value": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "value"
+                ],
+                "additionalProperties": false
+              },
+              "description": "Selected variant options (e.g. color, size) — not yet supported"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": true
+        },
+        "execution": {
+          "taskSupport": "forbidden"
+        }
+      },
+      {
+        "name": "search_products_by_text",
+        "description": "Search for products using text description or keywords. This tool searches through various shopping platforms to find products matching your query.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string",
+              "description": "Text query to search for products. Use the user's exact input with only spelling/grammar corrections. Do not modify the query in any way. Do not add attributes, price ranges, or features."
+            },
+            "refresh": {
+              "type": "boolean",
+              "description": "Force refresh to bypass cache and get latest results."
+            },
+            "search_category": {
+              "type": "string",
+              "enum": [
+                "all",
+                "Fashion",
+                "Furniture",
+                "Home Decor",
+                "Electronics",
+                "Beauty",
+                "Toys",
+                "Sporting",
+                "Pets",
+                "Baby & Kids",
+                "Auto",
+                "Food",
+                "Hardware",
+                "Office",
+                "Media",
+                "Other"
+              ],
+              "description": "Categorize the user's search intent into one of the following categories."
+            }
+          },
+          "required": [
+            "query",
+            "refresh",
+            "search_category"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": true
+        },
+        "execution": {
+          "taskSupport": "forbidden"
+        }
+      },
+      {
+        "name": "search_products_by_image",
+        "description": "Search for visually similar products using an image. Provide an image URL (or hash of existing result) and find visually similar products.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "image_url": {
+              "type": "string",
+              "default": "",
+              "description": "Direct image URL for new visual search. Must be accessible publicly. If you are refining a previous search, use the hash parameter instead and leave this blank. Otherwise, this parameter is required."
+            },
+            "hash": {
+              "type": "string",
+              "default": "",
+              "description": "Hash from a previous URL or image search result. CRITICAL: When you have a hash from ANY previous URL or image search and the user has, you MUST use it here for ALL subsequent refinements (even text-only refinements from the user). The hash keeps the visual context while allowing text refinements via the q parameter."
+            },
+            "refresh": {
+              "type": "boolean",
+              "default": false,
+              "description": "Force cache bypass for fresh results. (default: false)"
+            },
+            "load_more": {
+              "type": "boolean",
+              "default": false,
+              "description": "Load more results for pagination (default: false)"
+            },
+            "q": {
+              "type": "string",
+              "default": "",
+              "description": "Text refinement for visual search. CRITICAL: When user provides text refinement after a URL or image search (like \"in black\", \"cheaper version\", \"without sleeves\"), put that refinement text here along with the hash. Use to add context or filters. Can reword user input to improve results like color, style, price. Examples: \"in blue\", \"under $50\", \"casual style\". Leave empty ONLY for initial image-only searches. Do NOT pass a value if you are not confident about the product or the user's intent. Leave this blank if the user has only provided an image url, and it is the starting point of the search."
+            },
+            "is_refinement": {
+              "type": "boolean",
+              "default": false,
+              "description": "Set to true when refining a previous search with new criteria. MUST be true when q is provided with a hash. (default: false, required true when q is not empty)"
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": true
+        },
+        "execution": {
+          "taskSupport": "forbidden"
+        }
+      },
+      {
+        "name": "search_products_by_url",
+        "description": "Extract and search for alternatives to a specific product from its URL. Use ONLY for complete product page URLs.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "hash": {
+              "type": "string",
+              "default": "",
+              "description": "If you already have a product hash, you can search it again instead of a url. This is useful with an image override"
+            },
+            "product_url": {
+              "type": "string",
+              "description": "Full product page URL. Must be a specific product, not a category or search results page"
+            },
+            "image_override": {
+              "type": "string",
+              "default": "",
+              "description": "Alternative image URL if product page image is unsuitable for visual matching. (default: empty)"
+            },
+            "refresh": {
+              "type": "boolean",
+              "default": false,
+              "description": "Force refresh of cached data (default: false)"
+            }
+          },
+          "required": [
+            "product_url"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": true
+        },
+        "execution": {
+          "taskSupport": "forbidden"
+        }
+      },
+      {
+        "name": "get_product_details",
+        "description": "Fetch enriched product details — description, brand, specifications, images, and typical price range — for one or more products from a previous search. Pass product_id values returned by search_products_by_text or search_products_by_image. Use this when the user wants to know more about a specific product or when you need a product description to display. Processes up to 5 products per call in parallel.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "product_ids": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1,
+              "maxItems": 5,
+              "description": "Array of product_id values from previous search results. Maximum 5 per call."
+            }
+          },
+          "required": [
+            "product_ids"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": true
+        },
+        "execution": {
+          "taskSupport": "forbidden"
+        }
+      }
+    ]
+  }
+}
